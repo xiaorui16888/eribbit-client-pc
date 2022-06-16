@@ -1,79 +1,26 @@
 import { createStore } from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
-// A模块
-const moduleA = {
-  state: {
-    username: 'moduleA'
-  },
-  getters: {
-    newName (state) {
-      return state.username + '!!!'
-    }
-  }
-}
-// B模块
-const moduleB = {
-  namespaced: true,
-  state: {
-    username: 'moduleB'
-  },
-  getters: {
-    newName (state) {
-      return state.username + '---BBB'
-    }
-  },
-  mutations: {
-    updateName (state) {
-      state.username = 'ls'
-    }
-  },
-  actions: {
-    updateName (ctx) {
-      // 发请求
-      setTimeout(() => {
-        ctx.commit('updateName')
-      }, 1000)
-    }
-  }
-}
+// 引入三个模块
+import cart from './modules/cart.js'
+import user from './modules/user.js'
+import category from './modules/category.js'
 
 export default createStore({
   modules: {
-    moduleA,
-    moduleB
-  }
+    cart,
+    user,
+    category
+  },
+  plugins: [
+    // 默认存储到localStorage中
+    createPersistedState({
+      // 本地存储名字
+      key: 'eribbit-client-pc-store',
+      // 指定需要存储的模块
+      paths: [
+        'user', 'cart'
+      ]
+    })
+  ]
 })
-
-// vue2.0 创建仓库 new Vuex.Store({})
-// vue3.0 创建仓库 createStore()
-
-// export default createStore({
-//   // 存状态
-//   state: {
-//     username: 'zs'
-//   },
-//   // 写计算属性
-//   getters: {
-//     newName (state) {
-//       return state.username + '!!!'
-//     }
-//   },
-//   // 修改方法
-//   mutations: {
-//     updateName (state) {
-//       state.username = 'ls'
-//     }
-//   },
-//   // 拿数据
-//   actions: {
-//     updateName (ctx) {
-//       // 发请求
-//       setTimeout(() => {
-//         ctx.commit('updateName')
-//       }, 1000)
-//     }
-//   },
-//   // 分模块
-//   modules: {
-//   }
-// })
