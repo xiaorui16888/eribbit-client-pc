@@ -2,19 +2,24 @@
     <!-- 左侧分类-结构 -->
     <div class='home-category'>
         <ul class="menu">
-            <li v-for="item in menuList" :key="item.id" @mouseenter="categoryId = item.id" :class="{active:categoryId===item.id}">
+            <li v-for="item in menuList" :key="item.id" @mouseenter="categoryId = item.id"
+                :class="{ active: categoryId === item.id }">
                 <RouterLink :to="`/category/${item.id}`">{{ item.name }}</RouterLink>
                 <template v-if="item.children">
                     <RouterLink v-for="sub in item.children" :key="sub.id" :to="`/category/sub/${sub.id}`">
                         {{ sub.name }}
                     </RouterLink>
                 </template>
+                <span v-else>
+                    <XtxSkeleton width="60px" height="18px" style="margin-right:5px" bg="rgba(255,255,255,0.2)" />
+                    <XtxSkeleton width="50px" height="18px" bg="rgba(255,255,255,0.2)" />
+                </span>
             </li>
         </ul>
     </div>
 
     <!-- 弹层 -->
-    <div class="layer"  @mouseleave="categoryId=null">
+    <div class="layer" @mouseleave="categoryId = null">
         <h4 v-if="currCategory">{{ currCategory.id === 'brand' ? '品牌' : '分类' }}推荐 <small>根据您的购买或浏览记录推荐</small></h4>
         <ul v-if="currCategory && currCategory.goods && currCategory.goods.length">
             <li v-for="item in currCategory.goods" :key="item.id">
@@ -94,6 +99,17 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.xtx-skeleton {
+  animation: fade 1s linear infinite alternate;
+}
+@keyframes fade {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .layer {
     width: 990px;
     height: 500px;
@@ -189,7 +205,7 @@ export default {
             height: 50px;
             line-height: 50px;
 
-            &:hover{
+            &:hover {
                 background: @xtxColor;
             }
 
