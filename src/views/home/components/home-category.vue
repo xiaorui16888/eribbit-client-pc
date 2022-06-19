@@ -2,7 +2,7 @@
     <!-- 左侧分类-结构 -->
     <div class='home-category'>
         <ul class="menu">
-            <li v-for="item in menuList" :key="item.id" @mouseenter="categoryId = item.id">
+            <li v-for="item in menuList" :key="item.id" @mouseenter="categoryId = item.id" :class="{active:categoryId===item.id}">
                 <RouterLink :to="`/category/${item.id}`">{{ item.name }}</RouterLink>
                 <template v-if="item.children">
                     <RouterLink v-for="sub in item.children" :key="sub.id" :to="`/category/sub/${sub.id}`">
@@ -11,28 +11,46 @@
                 </template>
             </li>
         </ul>
-        <!-- 弹层 -->
-        <div class="layer">
-            <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
-            <ul v-if="currCategory && currCategory.goods && currCategory.goods.length">
-                <li v-for="item in currCategory.goods" :key="item.id">
-                    <RouterLink to="/">
-                        <img :src="item.picture" alt="">
-                        <div class="info">
-                            <p class="name ellipsis-2">{{ item.name }}</p>
-                            <p class="desc ellipsis">{{ item.desc }}</p>
-                            <p class="price"><i>¥</i>{{ item.price }}</p>
-                        </div>
-                    </RouterLink>
-                </li>
-            </ul>
-        </div>
     </div>
+
+    <!-- 弹层 -->
+    <div class="layer"  @mouseleave="categoryId=null">
+        <h4 v-if="currCategory">{{ currCategory.id === 'brand' ? '品牌' : '分类' }}推荐 <small>根据您的购买或浏览记录推荐</small></h4>
+        <ul v-if="currCategory && currCategory.goods && currCategory.goods.length">
+            <li v-for="item in currCategory.goods" :key="item.id">
+                <RouterLink to="/">
+                    <img :src="item.picture" alt="">
+                    <div class="info">
+                        <p class="name ellipsis-2">{{ item.name }}</p>
+                        <p class="desc ellipsis">{{ item.desc }}</p>
+                        <p class="price"><i>¥</i>{{ item.price }}</p>
+                    </div>
+                </RouterLink>
+            </li>
+        </ul>
+
+        <!-- 品牌层 -->
+        <ul v-if="currCategory && currCategory.brands && currCategory.brands.length">
+            <li class="brand" v-for="item in currCategory.brands" :key="item.id">
+                <RouterLink to="/">
+                    <img :src="item.picture" alt="">
+                    <div class="info">
+                        <p class="place"><i class="iconfont icon-dingwei"></i>{{ item.place }}</p>
+                        <p class="name ellipsis">{{ item.name }}</p>
+                        <p class="desc ellipsis-2">{{ item.desc }}</p>
+                    </div>
+                </RouterLink>
+            </li>
+        </ul>
+
+    </div>
+
 </template>
 
 <script>
 import { useStore } from 'vuex'
 import { reactive, computed, ref } from 'vue'
+import { findBrand } from '@/api/home.js'
 export default {
   name: 'HomeCategory',
   // 1. 获取vuex的一级分类，并且只需要两个二级分类
@@ -43,7 +61,12 @@ export default {
     const brand = reactive({
       id: 'brand',
       name: '品牌',
-      children: [{ id: 'brand-chilren', name: '品牌推荐' }]
+      children: [{ id: 'brand-chilren', name: '品牌推荐' }],
+      brands: []
+    })
+
+    findBrand(6).then(data => {
+      brand.brands = data.result.slice(0, 9)
     })
 
     const store = useStore()
@@ -71,35 +94,6 @@ export default {
 </script>
 
 <style scoped lang='less'>
-.home-category {
-    width: 250px;
-    height: 500px;
-    background: rgba(0, 0, 0, 0.8);
-    position: relative;
-    z-index: 99;
-
-    .menu {
-        li {
-            padding-left: 40px;
-            height: 50px;
-            line-height: 50px;
-
-            &:hover {
-                background: @xtxColor;
-            }
-
-            a {
-                margin-right: 4px;
-                color: #fff;
-
-                &:first-child {
-                    font-size: 16px;
-                }
-            }
-        }
-    }
-}
-
 .layer {
     width: 990px;
     height: 500px;
@@ -177,6 +171,58 @@ export default {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+.home-category {
+    width: 250px;
+    height: 500px;
+    background: rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 99;
+
+    .menu {
+        li {
+            padding-left: 40px;
+            height: 50px;
+            line-height: 50px;
+
+            &:hover{
+                background: @xtxColor;
+            }
+
+            a {
+                margin-right: 4px;
+                color: #fff;
+
+                &:first-child {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}
+
+li.brand {
+    height: 180px;
+
+    a {
+        align-items: flex-start;
+
+        img {
+            width: 120px;
+            height: 160px;
+        }
+
+        .info {
+            p {
+                margin-top: 8px;
+            }
+
+            .place {
+                color: #999;
             }
         }
     }

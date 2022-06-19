@@ -1,11 +1,11 @@
 <template>
-  <div class="app-header-sticky" :class="{show:y>=78}">
-    <div class="container" v-show="y>=78">
+  <div class="app-header-sticky" :class="{ show: y >= 78 }">
+    <div class="container" v-show="y >= 78">
       <RouterLink class="logo" to="/" />
       <AppHeaderNav />
       <div class="right">
-        <RouterLink to="/" >品牌</RouterLink>
-        <RouterLink to="/" >专题</RouterLink>
+        <RouterLink to="/">品牌</RouterLink>
+        <RouterLink to="/">专题</RouterLink>
       </div>
     </div>
   </div>
