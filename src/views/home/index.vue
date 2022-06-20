@@ -6,7 +6,9 @@
         <HomeCategory />
         <!-- 轮播图 -->
         <HomeBanner />
+        <!-- 新鲜好物 -->
         <HomeNew/>
+        <HomeHot />
       </div>
     </div>
   </div>
@@ -15,12 +17,14 @@
 import HomeCategory from './components/home-category'
 import HomeBanner from './components/home-banner'
 import HomeNew from './components/home-new'
+import HomeHot from './components/home-hot'
 export default {
   name: 'PageHome',
   components: {
     HomeCategory,
     HomeBanner,
-    HomeNew
+    HomeNew,
+    HomeHot
   }
 }
 </script>
