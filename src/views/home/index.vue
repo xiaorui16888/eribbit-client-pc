@@ -6,12 +6,7 @@
         <HomeCategory />
         <!-- 轮播图 -->
         <HomeBanner />
-        <!-- 新鲜好物 -->
-        <HomePanel title="新鲜好物" sub-title="新鲜出炉 品质靠谱">
-          <template #right>
-            <XtxMore path="/"></XtxMore>
-          </template>
-        </HomePanel>
+        <HomeNew/>
       </div>
     </div>
   </div>
@@ -19,15 +14,13 @@
 <script>
 import HomeCategory from './components/home-category'
 import HomeBanner from './components/home-banner'
-import HomePanel from './components/home-panel'
-import XtxMore from '@/components/library/xtx-more.vue'
+import HomeNew from './components/home-new'
 export default {
   name: 'PageHome',
   components: {
     HomeCategory,
     HomeBanner,
-    HomePanel,
-    XtxMore
+    HomeNew
   }
 }
 </script>
