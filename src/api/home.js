@@ -25,5 +25,5 @@ export const findNew = () => {
  * @returns Promise
  */
 export const findHot = () => {
-  return request('/home/new', 'get')
+  return request('/home/hot', 'get')
 }
