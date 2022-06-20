@@ -11,7 +11,7 @@
         <!-- 人气推荐 -->
         <HomeHot />
 
-        <div>
+        <!-- <div>
           <button @click="show = true">显示|创建</button>
           <button @click="show = false">隐藏|移除</button>
           <div v-show="show" style="background:red;height:100px;width:100px;">
@@ -20,7 +20,7 @@
             <div v-show="show" style="background:red;height:100px;width:100px;">
             </div>
           </Transition>
-        </div>
+        </div> -->
 
       </div>
     </div>
