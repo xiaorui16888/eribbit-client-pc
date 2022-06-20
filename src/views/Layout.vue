@@ -7,7 +7,7 @@
     <!-- 头部组件 -->
     <AppHeader/>
     <!-- 内容容器 -->
-    <div class="main" style="height: 500px;">
+    <div class="main">
       <!-- 二级路由 -->
       <RouterView/>
     </div>
