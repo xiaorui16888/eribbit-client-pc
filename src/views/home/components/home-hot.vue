@@ -1,6 +1,6 @@
 <template>
   <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
-    <div style="position: relative;height: 426px;">
+    <div ref="target" style="position: relative;height: 426px;">
       <Transition name="fade">
         <ul v-if="goods.length" ref="pannel" class="goods-list">
           <li v-for="item in goods" :key="item.id">
@@ -22,6 +22,7 @@ import { ref } from 'vue'
 import HomePanel from './home-panel'
 import HomeSkeleton from './home-skeleton'
 import { findHot } from '@/api/home'
+import { uselazyData } from '@/hooks'
 export default {
   name: 'HomeNew',
   components: {
@@ -29,11 +30,14 @@ export default {
     HomeSkeleton
   },
   setup () {
-    const goods = ref([])
-    findHot().then(data => {
-      goods.value = data.result
-    })
-    return { goods }
+    // const goods = ref([])
+    // findHot().then(data => {
+    //   goods.value = data.result
+    // })
+    const target = ref(null)
+    const result = uselazyData(target, findHot)
+
+    return { goods: result, target }
   }
 }
 </script>

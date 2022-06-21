@@ -6,7 +6,7 @@
                 <XtxMore path="/"></XtxMore>
             </template>
             <!-- 面板内容 -->
-            <div style="position: relative;height: 406px;">
+            <div ref="target" style="position: relative;height: 406px;">
                 <Transition name="fade">
                     <ul v-if="goods.length" ref="pannel" class="goods-list">
                         <li v-for="item in goods" :key="item.id">
@@ -26,6 +26,7 @@
 <script>
 
 import { findNew } from '@/api/home'
+import { uselazyData } from '@/hooks'
 import { ref } from 'vue'
 import HomePanel from './home-panel'
 import HomeSkeleton from './home-skeleton'
@@ -37,12 +38,16 @@ export default {
     HomeSkeleton
   },
   setup () {
-    const goods = ref([])
-    findNew().then(data => {
-      goods.value = data.result
-    })
+    // const goods = ref([])
+    // findNew().then(data => {
+    //   goods.value = data.result
+    // })
 
-    return { goods }
+    const target = ref(null)
+
+    const result = uselazyData(target, findNew)
+
+    return { goods: result, target }
   }
 }
 </script>
