@@ -27,7 +27,6 @@
 
 import { findNew } from '@/api/home'
 import { uselazyData } from '@/hooks'
-import { ref } from 'vue'
 import HomePanel from './home-panel'
 import HomeSkeleton from './home-skeleton'
 
@@ -43,9 +42,7 @@ export default {
     //   goods.value = data.result
     // })
 
-    const target = ref(null)
-
-    const result = uselazyData(target, findNew)
+    const { target, result } = uselazyData(findNew)
 
     return { goods: result, target }
   }
