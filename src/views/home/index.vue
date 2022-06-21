@@ -10,6 +10,10 @@
         <HomeNew />
         <!-- 人气推荐 -->
         <HomeHot />
+        <!-- 热门品牌 -->
+        <HomeBrand/>
+        <!-- 商品区域 -->
+        <HomeProduct/>
 
         <!-- <div>
           <button @click="show = true">显示|创建</button>
@@ -32,13 +36,17 @@ import HomeBanner from './components/home-banner'
 import HomeNew from './components/home-new'
 import HomeHot from './components/home-hot'
 import { ref } from 'vue'
+import HomeBrand from './components/home-brand.vue'
+import HomeProduct from './components/home-product.vue'
 export default {
   name: 'PageHome',
   components: {
     HomeCategory,
     HomeBanner,
     HomeNew,
-    HomeHot
+    HomeHot,
+    HomeBrand,
+    HomeProduct
   },
   setup () {
     const show = ref(true)
