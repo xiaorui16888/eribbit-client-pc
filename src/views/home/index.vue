@@ -14,6 +14,8 @@
         <HomeBrand/>
         <!-- 商品区域 -->
         <HomeProduct/>
+        <!-- 最新专题 -->
+        <HomeSpecial/>
 
         <!-- <div>
           <button @click="show = true">显示|创建</button>
@@ -38,6 +40,7 @@ import HomeHot from './components/home-hot'
 import { ref } from 'vue'
 import HomeBrand from './components/home-brand.vue'
 import HomeProduct from './components/home-product.vue'
+import HomeSpecial from './components/home-special.vue'
 export default {
   name: 'PageHome',
   components: {
@@ -46,7 +49,8 @@ export default {
     HomeNew,
     HomeHot,
     HomeBrand,
-    HomeProduct
+    HomeProduct,
+    HomeSpecial
   },
   setup () {
     const show = ref(true)

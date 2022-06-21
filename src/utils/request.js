@@ -21,7 +21,6 @@ instance.interceptors.request.use(config => {
   // 如果本地有token就在头部携带token，
   // 1.获取用户信息对象
   const { profile } = store.state.user
-  console.log(profile.token)
   // 2.判断是否有token
   if (profile.token) {
     // 3.设置token
