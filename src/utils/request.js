@@ -56,8 +56,8 @@ export default (url, method, submitData) => {
   return instance({
     url,
     method,
-    // 1.如果是get请求，需要使用parmas来传递参数
+    // 1.如果是get请求，需要使用params来传递参数
     // 2.如果不是get请求，需要使用data来传递参数
-    [method.toLowerCase() === 'get' ? 'parmas' : 'data']: submitData
+    [method.toLowerCase() === 'get' ? 'params' : 'data']: submitData
   })
 }

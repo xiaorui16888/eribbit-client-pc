@@ -4,7 +4,9 @@
       <!-- 面包屑 -->
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
-        <XtxBreadItem>{{topCategory.name}}</XtxBreadItem>
+        <Transition name="fade-right" mode="out-in">
+          <XtxBreadItem :key="topCategory.id">{{ topCategory.name }}</XtxBreadItem>
+        </Transition>
       </XtxBread>
       <!-- 轮播图 -->
       <XtxCarousel :sliders="sliders" style="height:500px" />
@@ -24,19 +26,37 @@
       </div>
 
       <!-- 各个分类推荐商品 -->
+      <!-- 分类关联商品 -->
+      <div class="ref-goods" v-for="item in subList" :key="item.id">
+        <div class="head">
+          <h3>- {{ item.name }} -</h3>
+          <p class="tag">{{ item.desc }}</p>
+          <XtxMore />
+        </div>
+        <div class="body">
+          <GoodsItem v-for="g in item.goods" :key="g.id" :goods="g" />
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
 <script>
 import XtxBread from '@/components/library/xtx-bread.vue'
 import XtxBreadItem from '@/components/library/xtx-bread-item.vue'
+import GoodsItem from './components/goods-item.vue'
 import { findBanner } from '@/api/home'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import { findTopCategory } from '@/api/category.js'
 export default {
   name: 'TopCategory',
-  components: { XtxBread, XtxBreadItem },
+  components: {
+    XtxBread,
+    XtxBreadItem,
+    GoodsItem
+  },
   setup () {
     // 轮播图
     const sliders = ref([])
@@ -49,18 +69,47 @@ export default {
     const topCategory = computed(() => {
       let cate = {}
       const item = store.state.category.list.find(item => {
-        console.log(item.id)
+        // console.log(item.id)
         return item.id === route.params.id
       })
       if (item) cate = item
       return cate
     })
 
-    return { sliders, topCategory }
+    // 推荐商品
+    const subList = ref([])
+    const getSubList = () => {
+      findTopCategory(route.params.id).then(data => {
+        subList.value = data.result.children
+      })
+    }
+
+    watch(() => route.params.id, (newVal) => {
+      newVal && getSubList()
+    }, { immediate: true })
+
+    return { sliders, topCategory, subList }
   }
 }
 </script>
 <style scoped lang="less">
+.fade-right-enter-to,
+.fade-right-leave-from {
+  opacity: 1;
+  transform: none;
+}
+
+.fade-right-enter-active,
+.fade-right-leave-active {
+  transition: all .5s;
+}
+
+.fade-right-enter-from,
+.fade-right-leave-to {
+  opacity: 0;
+  transform: translate3d(20px, 0, 0);
+}
+
 .top-category {
   h3 {
     font-size: 28px;
@@ -103,6 +152,35 @@ export default {
         }
       }
     }
+  }
+}
+
+.ref-goods {
+  background-color: #fff;
+  margin-top: 20px;
+  position: relative;
+
+  .head {
+    .xtx-more {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .tag {
+      text-align: center;
+      color: #999;
+      font-size: 20px;
+      position: relative;
+      top: -20px;
+    }
+  }
+
+  .body {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 0 65px 30px;
   }
 }
 </style>
