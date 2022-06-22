@@ -12,26 +12,31 @@ export default {
 </script>
 
 <style lang='less'>
-.xtx-bread{
+.xtx-bread {
   display: flex;
   padding: 25px 10px;
+
+  &:last-child {
+    display: none;
+  }
+
   &-item {
     a {
       color: #666;
       transition: all .4s;
+
       &:hover {
         color: @xtxColor;
       }
     }
   }
+
   i {
     font-size: 12px;
     margin-left: 5px;
     margin-right: 5px;
     line-height: 22px;
-    &:last-child{
-        display: none;
-    }
+
   }
 }
 </style>
