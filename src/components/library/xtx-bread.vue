@@ -1,40 +1,17 @@
 <template>
   <div class='xtx-bread'>
-    <div class="xtx-bread-item">
-      <RouterLink to="/">首页</RouterLink>
-    </div>
-    <i class="iconfont icon-angle-right"></i>
-    <div class="xtx-bread-item" v-if="parentName">
-      <RouterLink v-if="parentPath" :to="parentPath">{{parentName}}</RouterLink>
-    <span v-else>{{parentName}}</span>
-    </div>
-    <i v-if="parentName"  class="iconfont icon-angle-right"></i>
-    <div class="xtx-bread-item">
-      <span><slot /></span>
-    </div>
+    <slot />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'XtxBread',
-  props: {
-    // 父级类母路径
-    parentPath: {
-      type: [String, Object],
-      default: '/'
-    },
-    // 父级类目名称
-    parentName: {
-      type: String,
-      default: ''
-    }
-  }
+  name: 'XtxBread'
 
 }
 </script>
 
-<style scoped lang='less'>
+<style lang='less'>
 .xtx-bread{
   display: flex;
   padding: 25px 10px;
@@ -52,6 +29,9 @@ export default {
     margin-left: 5px;
     margin-right: 5px;
     line-height: 22px;
+    &:last-child{
+        display: none;
+    }
   }
 }
 </style>

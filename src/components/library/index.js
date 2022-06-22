@@ -8,6 +8,7 @@ import XtxSkeleton from './xtx-skeleton.vue'
 import XtxCarousel from './xtx-carousel.vue'
 import XtxMore from './xtx-more.vue'
 import XtxBread from './xtx-bread.vue'
+import XtxBreadItem from './xtx-bread-item.vue'
 
 export default {
   install (app) {
@@ -17,6 +18,7 @@ export default {
     app.component(XtxCarousel.name, XtxCarousel)
     app.component(XtxMore.name, XtxMore)
     app.component(XtxBread.name, XtxBread)
+    app.component(XtxBreadItem.name, XtxBreadItem)
 
     // 定义指令
     defineDirective(app)
