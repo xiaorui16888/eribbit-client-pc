@@ -85,7 +85,8 @@ export default {
     }
 
     watch(() => route.params.id, (newVal) => {
-      newVal && getSubList()
+      // 加上严谨的判断，在顶级类目下才发请求
+      if (newVal && `/category/${newVal}` === route.path) getSubList()
     }, { immediate: true })
 
     return { sliders, topCategory, subList }

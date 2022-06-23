@@ -16,10 +16,6 @@ export default {
   display: flex;
   padding: 25px 10px;
 
-  &:last-child {
-    display: none;
-  }
-
   &-item {
     a {
       color: #666;
@@ -28,6 +24,13 @@ export default {
       &:hover {
         color: @xtxColor;
       }
+    }
+
+    &:last-child {
+      i {
+        display: none;
+      }
+
     }
   }
 
