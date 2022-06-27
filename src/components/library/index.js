@@ -27,6 +27,7 @@ export default {
     importFn.keys().forEach(key => {
       // 导入组件
       const component = importFn(key).default
+      console.log(component)
       app.component(component.name, component)
     })
 

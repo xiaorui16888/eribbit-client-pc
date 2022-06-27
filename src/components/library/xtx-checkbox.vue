@@ -11,7 +11,7 @@
 import { useVModel } from '@vueuse/core'
 
 export default {
-  name: 'SubFilter',
+  name: 'XtxCheckbox',
   props: {
     modelValue: {
       type: Boolean,
