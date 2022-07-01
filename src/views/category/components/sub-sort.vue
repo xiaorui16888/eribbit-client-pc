@@ -54,12 +54,12 @@ export default {
         sortParams.sortMethod = null
       }
       // 触发sort-change事件
-      emit('sort-change', sortParams())
+      emit('sort-change', sortParams)
     }
 
     const changeCheck = () => {
       // 触发sort-change事件
-      emit('sort-change', sortParams())
+      emit('sort-change', sortParams)
     }
     return { sortParams, changeSort, changeCheck }
   }

@@ -72,8 +72,9 @@ export default {
           reqParams.page++
         } else {
           // 没有数据
-          finished.value = false
+          finished.value = true
         }
+        // 请求结束
         loading.value = false
       })
     }
@@ -94,15 +95,16 @@ export default {
       reqParams = { ...reqParams, ...sortParams }
       reqParams.page = 1
       goodList.value = []
+      getData()
     }
     // 2.更改筛选组件的筛选数据，重新请求
     const filterChange = (filterParams) => {
-      console.log(filterParams)
       finished.value = false
       // 合并请求参数，保留之前的参数
       reqParams = { ...reqParams, ...filterParams }
       reqParams.page = 1
       goodList.value = []
+      getData()
     }
     return { isAllChecked, getData, loading, finished, goodList, sortChange, filterChange }
   }
