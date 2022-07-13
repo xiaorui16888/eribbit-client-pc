@@ -1,9 +1,9 @@
 <template>
-  <p class="g-name">{{goods.name}}</p>
-  <p class="g-desc">{{goods.desc}}</p>
+  <p class="g-name">{{ goods.name }}</p>
+  <p class="g-desc">{{ goods.desc }}</p>
   <p class="g-price">
-    <span>{{goods.price}}</span>
-    <span>{{goods.oldPrice}}</span>
+    <span>{{ goods.price }}</span>
+    <span>{{ goods.oldPrice }}</span>
   </p>
   <div class="g-service">
     <dl>
@@ -12,7 +12,9 @@
     </dl>
     <dl>
       <dt>配送</dt>
-      <dd>至 <XtxCity/></dd>
+      <dd>至
+        <XtxCity @change="changeCity" :fullLocation="fullLocation" />
+      </dd>
     </dl>
     <dl>
       <dt>服务</dt>
@@ -27,6 +29,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'GoodName',
   props: {
@@ -34,7 +38,32 @@ export default {
       type: Object
     }
   },
-  components: { }
+  components: {},
+  setup (props) {
+    // 默认情况
+    const provinceCode = ref('110000')
+    const cityCode = ref('119900')
+    const countyCode = ref('110101')
+    const fullLocation = ref('北京市 市辖区 东城区')
+    if (props.goods.userAddress) {
+      const defaultAddr = props.goods.userAddress.find(addr => addr.isDefault === 1)
+      if (defaultAddr) {
+        provinceCode.value = defaultAddr.provinceCode
+        cityCode.value = defaultAddr.cityCode
+        countyCode.value = defaultAddr.countyCode
+        fullLocation.value = defaultAddr.fullLocation
+      }
+    }
+    // 选择城市
+    const changeCity = (result) => {
+      provinceCode.value = result.provinceCode
+      cityCode.value = result.cityCode
+      countyCode.value = result.countyCode
+      fullLocation.value = result.fullLocation
+    }
+
+    return { fullLocation, changeCity }
+  }
 }
 </script>
 
@@ -42,22 +71,27 @@ export default {
 .g-name {
   font-size: 22px
 }
+
 .g-desc {
   color: #999;
   margin-top: 10px;
 }
+
 .g-price {
   margin-top: 10px;
+
   span {
     &::before {
       content: "¥";
       font-size: 14px;
     }
+
     &:first-child {
       color: @priceColor;
       margin-right: 10px;
       font-size: 22px;
     }
+
     &:last-child {
       color: #999;
       text-decoration: line-through;
@@ -65,30 +99,37 @@ export default {
     }
   }
 }
+
 .g-service {
   background: #f5f5f5;
   width: 500px;
   padding: 20px 10px 0 10px;
   margin-top: 10px;
+
   dl {
     padding-bottom: 20px;
     display: flex;
     align-items: center;
+
     dt {
       width: 50px;
       color: #999;
     }
+
     dd {
       color: #666;
+
       &:last-child {
         span {
           margin-right: 10px;
+
           &::before {
             content: "•";
             color: @xtxColor;
             margin-right: 2px;
           }
         }
+
         a {
           color: @xtxColor;
         }
